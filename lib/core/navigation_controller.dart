@@ -1,7 +1,7 @@
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:flutterwave_standard/core/TransactionCallBack.dart';
-import 'package:flutterwave_standard/view/FlutterwaveWebView.dart';
-import 'package:flutterwave_standard/view/flutterwave_style.dart';
+import 'package:flutterwave_standard_auto/core/TransactionCallBack.dart';
+import 'package:flutterwave_standard_auto/view/FlutterwaveWebView.dart';
+import 'package:flutterwave_standard_auto/view/flutterwave_style.dart';
 import 'package:http/http.dart';
 
 import '../models/TransactionError.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:flutterwave_standard/core/TransactionCallBack.dart';
+import 'package:flutterwave_standard_auto/core/TransactionCallBack.dart';
 
 class FlutterwaveInAppBrowser extends InAppBrowser {
   final TransactionCallBack callBack;
@@ -29,7 +29,7 @@ class FlutterwaveInAppBrowser extends InAppBrowser {
   }
 
   _processResponse(Uri url, String? status, String? txRef, String? id) {
-    if ("successful" == status) {
+    if ("successful" == status || "completed" == status) {
       callBack.onTransactionSuccess(id: id, txRef: txRef!);
     } else {
       callBack.onCancelled(id: id, txRef: txRef, status: status);

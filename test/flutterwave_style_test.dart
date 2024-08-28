@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutterwave_standard/flutterwave.dart';
+import 'package:flutterwave_standard_auto/flutterwave.dart';
 
 main() {
   group("Flutterwave Style should", () {

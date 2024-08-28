@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutterwave_standard/core/TransactionCallBack.dart';
-import 'package:flutterwave_standard/models/requests/standard_request.dart';
-import 'package:flutterwave_standard/models/responses/charge_response.dart';
-import 'package:flutterwave_standard/core/navigation_controller.dart';
-import 'package:flutterwave_standard/view/view_utils.dart';
+import 'package:flutterwave_standard_auto/core/TransactionCallBack.dart';
+import 'package:flutterwave_standard_auto/models/requests/standard_request.dart';
+import 'package:flutterwave_standard_auto/models/responses/charge_response.dart';
+import 'package:flutterwave_standard_auto/core/navigation_controller.dart';
+import 'package:flutterwave_standard_auto/view/view_utils.dart';
 import 'package:http/http.dart';
 
 import 'flutterwave_style.dart';
@@ -46,6 +46,7 @@ class _PaymentState extends State<PaymentWidget>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CircularProgressIndicator(color: widget.style.progressIndicatorColor),
+              const SizedBox(height: 10),
               Text(widget.style.getProgressText, style: widget.style.mainTextStyle),
             ],
           ),
@@ -74,7 +75,6 @@ class _PaymentState extends State<PaymentWidget>
 
   @override
   onCancelled({String? id, String? txRef, String? status}) {
-    FlutterwaveViewUtils.showToast(widget.mainContext, "Transaction Cancelled");
       final ChargeResponse chargeResponse = ChargeResponse(
         status: status, success: false, transactionId: id, txRef: txRef);
     Navigator.pop(this.widget.mainContext, chargeResponse);
