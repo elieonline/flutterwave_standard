@@ -17,7 +17,7 @@
 
 <a id="about"></a>
 ## About
-Flutterwave's Flutter SDK is Flutterwave's offical flutter sdk to integrate Flutterwave's [Standard](https://developer.flutterwave.com/docs/flutterwave-standard) payment into your flutter app. It comes with a ready made Drop In UI.
+This package streamlines Flutterwave's [Standard](https://developer.flutterwave.com/docs/flutterwave-standard) payment integration into your Flutter app. Built upon Flutterwave's official Flutter SDK, it eliminates extra screens and confirmation dialogs, automatically initiating payments for a smoother user experience.
 
 
 
@@ -36,35 +36,16 @@ See [references](#references) for links to dashboard and API documentation.
 
 In your `pubspec.yaml` file add:
 
-1. `flutterwave_standard: ^1.0.4`
+1. `flutterwave_standard_auto: ^1.0.0`
 2. run `flutter pub get`  
    <a id="usage"></a>
 
 ## Usage
 
 Create a `Flutterwave` instance by calling the constructor `Flutterwave` The constructor accepts a mandatory instance of the following:  
-the calling `Context` , `publicKey`, `Customer`, `amount`, `currency`, `email`, `fullName`, `txRef`, `isDebug`, `paymentOptions`, and `Customization` . It returns an instance of `Flutterwave` which we then call the `async` method `.charge()` on.
+the calling `Context` , `publicKey`, `Customer`, `amount`, `currency`, `email`, `fullName` and `txRef` . It returns an instance of `Flutterwave` which we then call the `async` method `.charge()` on.
 
     _handlePaymentInitialization() async { 
-    final style = FlutterwaveStyle(
-     appBarText: "My Standard Blue", 
-     buttonColor: Color(0xffd0ebff), 
-     appBarIcon: Icon(Icons.message, color: Color(0xffd0ebff)),
-     buttonTextStyle: TextStyle( 
-	     color: Colors.black, 
-	     fontWeight: FontWeight.bold, 
-	     fontSize: 18), 
-    appBarColor: Color(0xffd0ebff), 
-    dialogCancelTextStyle: TextStyle(
-	    color: Colors.redAccent, 
-	    fontSize: 18
-	    ),
-    dialogContinueTextStyle: TextStyle(
-		    color: Colors.blue, 
-		    fontSize: 18
-		    ) 
-		  ); 
-
     final Customer customer = Customer(
 		    name: "FLW Developer", 
 		    phoneNumber: "1234566677777", 
@@ -73,7 +54,6 @@ the calling `Context` , `publicKey`, `Customer`, `amount`, `currency`, `email`, 
 		    
     final Flutterwave flutterwave = Flutterwave(
 		    context: context, 
-		    style: style, 
 		    publicKey: "Public Key, 
 		    currency: "RWF", 
 		    redirectUrl: "my_redirect_url" 
@@ -81,7 +61,6 @@ the calling `Context` , `publicKey`, `Customer`, `amount`, `currency`, `email`, 
 		    amount: "3000", 
 		    customer: customer, 
 		    paymentOptions: "ussd, card, barter, payattitude", 
-		    customization: Customization(title: "Test Payment"),
 		    isDebug: true
 		    ); 
 		} 

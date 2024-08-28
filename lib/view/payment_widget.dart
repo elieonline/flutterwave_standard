@@ -40,18 +40,23 @@ class _PaymentState extends State<PaymentWidget>
       navigatorKey: _navigatorKey,
       debugShowCheckedModeBanner: widget.request.isTestMode,
       home: Scaffold(
-        backgroundColor: widget.style.getMainBackgroundColor(),
-        body: widget.style.initialLoadingWidget ?? Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CircularProgressIndicator(color: widget.style.progressIndicatorColor),
-              const SizedBox(height: 10),
-              Text(widget.style.getProgressText, style: widget.style.mainTextStyle),
-            ],
-          ),
-        )
-      ),
+          backgroundColor: widget.style.getMainBackgroundColor(),
+          body: widget.style.initialLoadingWidget ??
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(
+                        color: widget.style.progressIndicatorColor),
+                    const SizedBox(height: 10),
+                    Text(
+                      widget.style.getProgressText,
+                      textAlign: TextAlign.center,
+                      style: widget.style.mainTextStyle,
+                    ),
+                  ],
+                ),
+              )),
     );
   }
 
@@ -75,7 +80,7 @@ class _PaymentState extends State<PaymentWidget>
 
   @override
   onCancelled({String? id, String? txRef, String? status}) {
-      final ChargeResponse chargeResponse = ChargeResponse(
+    final ChargeResponse chargeResponse = ChargeResponse(
         status: status, success: false, transactionId: id, txRef: txRef);
     Navigator.pop(this.widget.mainContext, chargeResponse);
   }

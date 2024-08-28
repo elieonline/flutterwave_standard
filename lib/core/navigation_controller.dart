@@ -39,7 +39,7 @@ class NavigationController {
         FlutterwaveInAppBrowser(callBack: _callBack, debugMode: isTestMode);
 
     var options = InAppBrowserClassOptions(
-      crossPlatform: InAppBrowserOptions(hideUrlBar: true),
+      crossPlatform: InAppBrowserOptions(hideUrlBar: true, toolbarTopBackgroundColor: style?.appBarColor,),
       inAppWebViewGroupOptions: InAppWebViewGroupOptions(
         crossPlatform: InAppWebViewOptions(javaScriptEnabled: true),
       ),
