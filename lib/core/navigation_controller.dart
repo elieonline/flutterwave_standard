@@ -24,7 +24,7 @@ class NavigationController {
         throw (TransactionError(standardResponse.message!));
       }
       openBrowser(
-          standardResponse.data?.link ?? "", request.redirectUrl);
+          standardResponse.data?.link ?? "", request.redirectUrl, request.isTestMode);
     } catch (error) {
       print("error is $error");
       throw (error);
@@ -36,7 +36,7 @@ class NavigationController {
       final String url, final String redirectUrl,
       [final bool isTestMode = false]) async {
     final FlutterwaveInAppBrowser browser =
-        FlutterwaveInAppBrowser(callBack: _callBack);
+        FlutterwaveInAppBrowser(callBack: _callBack, debugMode: isTestMode);
 
     var options = InAppBrowserClassOptions(
       crossPlatform: InAppBrowserOptions(hideUrlBar: true),

@@ -12,11 +12,11 @@ import 'package:http/http.dart';
 class StandardRequest {
   String txRef;
   String amount;
-  Customization customization;
+  Customization? customization;
   Customer customer;
   bool isTestMode;
   String publicKey;
-  String paymentOptions;
+  String? paymentOptions;
   String redirectUrl;
   String? currency;
   String? paymentPlanId;
@@ -26,8 +26,8 @@ class StandardRequest {
   StandardRequest({required this.txRef,
     required this.amount,
     required this.customer,
-    required this.paymentOptions,
-    required this.customization,
+    this.paymentOptions,
+    this.customization,
     required this.isTestMode,
     required this.publicKey,
     required this.redirectUrl,
@@ -52,7 +52,7 @@ class StandardRequest {
       "customer": this.customer.toJson(),
       "subaccounts": this.subAccounts?.map((e) => e.toJson()).toList(),
       "meta": this.meta,
-      "customizations": customization.toJson()
+      "customizations": customization?.toJson()
     };
   }
 

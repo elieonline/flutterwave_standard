@@ -23,12 +23,10 @@ class PaymentWidget extends StatefulWidget {
 class _PaymentState extends State<PaymentWidget>
     implements TransactionCallBack {
   final _navigatorKey = GlobalKey<NavigatorState>();
-  bool _isDisabled = false;
   late NavigationController controller;
 
   @override
   void initState() {
-    _isDisabled = false;
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _handlePayment();
@@ -43,33 +41,25 @@ class _PaymentState extends State<PaymentWidget>
       debugShowCheckedModeBanner: widget.request.isTestMode,
       home: Scaffold(
         backgroundColor: widget.style.getMainBackgroundColor(),
-        body: Center(
-          child: CircularProgressIndicator(color: widget.style.getButtonColor()),
+        body: widget.style.initialLoadingWidget ?? Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircularProgressIndicator(color: widget.style.progressIndicatorColor),
+              Text(widget.style.getProgressText, style: widget.style.mainTextStyle),
+            ],
+          ),
         )
       ),
     );
   }
 
-  void _handleButtonClicked() {
-    if (_isDisabled) return;
-    _showConfirmDialog();
-  }
-
   void _handlePayment() async {
     try {
-      _toggleButtonActive(false);
       controller.startTransaction(widget.request);
-      _toggleButtonActive(true);
     } catch (error) {
-      _toggleButtonActive(true);
       _showErrorAndClose(error.toString());
     }
-  }
-
-  void _toggleButtonActive(final bool shouldEnable) {
-    setState(() {
-      _isDisabled = !shouldEnable;
-    });
   }
 
   void _showErrorAndClose(final String errorMessage) {
@@ -77,31 +67,21 @@ class _PaymentState extends State<PaymentWidget>
     Navigator.pop(widget.mainContext); // return response to user
   }
 
-  void _showConfirmDialog() {
-    FlutterwaveViewUtils.showConfirmPaymentModal(
-        widget.mainContext,
-        widget.request.currency,
-        widget.request.amount,
-        widget.style.getMainTextStyle(),
-        widget.style.getDialogBackgroundColor(),
-        widget.style.getDialogCancelTextStyle(),
-        widget.style.getDialogContinueTextStyle(),
-        _handlePayment);
+  @override
+  onTransactionError([String? message]) {
+    _showErrorAndClose(message ?? "transaction error");
   }
 
   @override
-  onTransactionError() {
-    _showErrorAndClose("transaction error");
-  }
-
-  @override
-  onCancelled() {
+  onCancelled({String? id, String? txRef, String? status}) {
     FlutterwaveViewUtils.showToast(widget.mainContext, "Transaction Cancelled");
-    Navigator.pop(widget.mainContext);
+      final ChargeResponse chargeResponse = ChargeResponse(
+        status: status, success: false, transactionId: id, txRef: txRef);
+    Navigator.pop(this.widget.mainContext, chargeResponse);
   }
 
   @override
-  onTransactionSuccess(String id, String txRef) {
+  onTransactionSuccess({String? id, String? txRef, String? status}) {
     final ChargeResponse chargeResponse = ChargeResponse(
         status: "success", success: true, transactionId: id, txRef: txRef);
     Navigator.pop(this.widget.mainContext, chargeResponse);

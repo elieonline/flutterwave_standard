@@ -3,17 +3,21 @@ import 'package:flutterwave_standard/core/TransactionCallBack.dart';
 
 class FlutterwaveInAppBrowser extends InAppBrowser {
   final TransactionCallBack callBack;
+  final bool debugMode;
 
   var hasCompletedProcessing = false;
   var haveCallBacksBeenCalled = false;
 
-  FlutterwaveInAppBrowser({required this.callBack});
+  FlutterwaveInAppBrowser({required this.callBack, this.debugMode = false});
 
   @override
   Future onBrowserCreated() async {}
 
   @override
   Future onLoadStart(url) async {
+    if (debugMode) {
+      print("current url is $url");
+    }
     final status = url?.queryParameters["status"];
     final txRef = url?.queryParameters["tx_ref"];
     final id = url?.queryParameters["transaction_id"];
@@ -26,9 +30,9 @@ class FlutterwaveInAppBrowser extends InAppBrowser {
 
   _processResponse(Uri url, String? status, String? txRef, String? id) {
     if ("successful" == status) {
-      callBack.onTransactionSuccess(id!, txRef!);
+      callBack.onTransactionSuccess(id: id, txRef: txRef!);
     } else {
-      callBack.onCancelled();
+      callBack.onCancelled(id: id, txRef: txRef, status: status);
     }
     haveCallBacksBeenCalled = true;
     close();
@@ -39,7 +43,10 @@ class FlutterwaveInAppBrowser extends InAppBrowser {
 
   @override
   void onLoadError(url, code, message) {
-    callBack.onTransactionError();
+    if (debugMode) {
+      print("error is $message");
+    }
+    callBack.onTransactionError(message);
   }
 
   @override

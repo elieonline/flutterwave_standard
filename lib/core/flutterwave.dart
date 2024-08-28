@@ -11,11 +11,11 @@ class Flutterwave {
   BuildContext context;
   String txRef;
   String amount;
-  Customization customization;
+  Customization? customization;
   Customer customer;
   bool isTestMode;
   String publicKey;
-  String paymentOptions;
+  String? paymentOptions;
   String? currency;
   String? paymentPlanId;
   String redirectUrl;
@@ -29,9 +29,9 @@ class Flutterwave {
       required this.txRef,
       required this.amount,
       required this.customer,
-      required this.paymentOptions,
-      required this.customization,
-      required this.isTestMode,
+      this.paymentOptions,
+      this.customization,
+      this.isTestMode = false,
       this.currency,
       this.paymentPlanId,
       required this.redirectUrl,

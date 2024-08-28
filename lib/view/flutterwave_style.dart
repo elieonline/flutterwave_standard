@@ -13,6 +13,9 @@ class FlutterwaveStyle {
   final TextStyle? dialogCancelTextStyle;
   final TextStyle? dialogContinueTextStyle;
   final String? buttonText;
+  final Color? progressIndicatorColor;
+  final String? progressText;
+  final Widget? initialLoadingWidget;
 
   FlutterwaveStyle(
       {this.buttonColor,
@@ -26,7 +29,11 @@ class FlutterwaveStyle {
       this.dialogBackgroundColor,
       this.dialogCancelTextStyle,
       this.dialogContinueTextStyle,
-      this.buttonText});
+      this.buttonText,
+      this.progressIndicatorColor,
+      this.progressText,
+      this.initialLoadingWidget,
+      });
 
   /// Returns app bar text text or default
   String getAppBarText() {
@@ -91,5 +98,11 @@ class FlutterwaveStyle {
   /// Returns button text or default
   String getButtonText() {
     return buttonText ?? "Make Payment";
+  }
+
+  
+  /// Returns progress text or default
+  String get getProgressText {
+    return progressText ?? "Please wait while we initiate your transaction...";
   }
 }
