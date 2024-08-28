@@ -13,9 +13,6 @@ class PaymentWidget extends StatefulWidget {
   final StandardRequest request;
   final BuildContext mainContext;
 
-  BuildContext? loadingDialogContext;
-  SnackBar? snackBar;
-
   PaymentWidget(
       {required this.request, required this.style, required this.mainContext});
 
@@ -33,6 +30,9 @@ class _PaymentState extends State<PaymentWidget>
   void initState() {
     _isDisabled = false;
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _handlePayment();
+    });
   }
 
   @override
@@ -43,31 +43,9 @@ class _PaymentState extends State<PaymentWidget>
       debugShowCheckedModeBanner: widget.request.isTestMode,
       home: Scaffold(
         backgroundColor: widget.style.getMainBackgroundColor(),
-        appBar: FlutterwaveViewUtils.appBar(
-          context,
-          widget.style.getAppBarText(),
-          widget.style.getAppBarTextStyle(),
-          widget.style.getAppBarIcon(),
-          widget.style.getAppBarColor(),
-        ),
-        body: SafeArea(
-          child: Container(
-            width: double.infinity,
-            height: 50,
-            margin: EdgeInsets.fromLTRB(20, 50, 20, 0),
-            child: ElevatedButton(
-              autofocus: true,
-              onPressed: _handleButtonClicked,
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: widget.style.getButtonColor(),
-                  textStyle: widget.style.getButtonTextStyle()),
-              child: Text(
-                widget.style.getButtonText(),
-                style: widget.style.getButtonTextStyle(),
-              ),
-            ),
-          ),
-        ),
+        body: Center(
+          child: CircularProgressIndicator(color: widget.style.getButtonColor()),
+        )
       ),
     );
   }
